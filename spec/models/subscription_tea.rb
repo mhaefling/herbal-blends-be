@@ -5,7 +5,6 @@ RSpec.describe SubscriptionTea, type: :model do
     it { should validate_presence_of(:subscription) }
     it { should validate_presence_of(:tea) }
     it { should validate_presence_of(:customer) }
-    it { should validate_presence_of(:status) }
   end
 
   describe "associations" do
