@@ -6,7 +6,7 @@ class Api::V1::TeasController < ApplicationController
   end
 
   def show
-    tea = Tea.find_by(id: params[:id])
+    tea = Tea.find(params[:id])
     render json: TeaSerializer.new(tea, { params: { include_customer_count: true, include_subscription_count: true }}), status: :ok
   end
 
@@ -18,6 +18,6 @@ class Api::V1::TeasController < ApplicationController
   private
   
   def tea_params
-    params.permit(:title, :description, :temp, :brew_time)
+    params.require(:tea).permit(:title, :description, :temp, :brew_time)
   end
 end
