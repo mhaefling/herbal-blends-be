@@ -47,7 +47,7 @@ RSpec.describe "Teas Controller", type: :request do
     end
   end
 
-  describe "Show Index" do
+  describe "Show Action" do
     it 'Returns the details of a single requested Tea by id' do
       get "/api/v1/teas/#{@tea2.id}"
 
@@ -71,6 +71,40 @@ RSpec.describe "Teas Controller", type: :request do
       expect(tea_data_attributes[:brew_time]).to be_a Integer
       expect(tea_data_attributes[:customer_count]).to be_a Integer
       expect(tea_data_attributes[:subscription_count]).to be_a Integer
+    end
+  end
+
+  describe "Create Action" do
+    it "Can create new teas" do
+      new_tea = {
+        title: "Special Blend",
+        description: "This tea contains the magic ingrediant!",
+        temp: 10,
+        brew_time: 20
+      }
+      post "/api/v1/teas/", params: new_tea, as: :json
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      new_tea = JSON.parse(response.body, symbolize_names: true)
+      expect(new_tea[:data]).to be_a Hash
+      
+      new_tea_data = new_tea[:data]
+      expect(new_tea_data[:id]).to be_a String
+      expect(new_tea_data[:type]).to be_a String
+      expect(new_tea_data[:type]).to eq("tea")
+      expect(new_tea_data[:attributes]).to be_a Hash
+
+      new_tea_attributes = new_tea[:data][:attributes]
+      expect(new_tea_attributes[:title]).to be_a String
+      expect(new_tea_attributes[:title]).to eq("Special Blend")
+      expect(new_tea_attributes[:description]).to be_a String
+      expect(new_tea_attributes[:description]).to eq("This tea contains the magic ingrediant!")
+      expect(new_tea_attributes[:temp]).to be_a Integer
+      expect(new_tea_attributes[:temp]).to eq(10)
+      expect(new_tea_attributes[:brew_time]).to be_a Integer
+      expect(new_tea_attributes[:brew_time]).to eq(20)
     end
   end
 end
