@@ -41,7 +41,7 @@ RSpec.describe "Customer Controller", type: :request do
   end
 
   describe "Show Action" do
-    it "Returns a specific customers data by id" do
+    it 'Returns a specific customers data by id' do
       get "/api/v1/customers/#{@test_customer.id}"
 
       expect(response).to be_successful
@@ -65,6 +65,27 @@ RSpec.describe "Customer Controller", type: :request do
       expect(customer_attributes[:email]).to eq("JollyGreen@gmail.com")
       expect(customer_attributes[:address]).to be_a String
       expect(customer_attributes[:address]).to eq("123 JollyGreen Street")
+    end
+  end
+
+  describe "Sad Paths" do
+    it 'Provides a valid error when customer id does not exist' do
+      get "/api/v1/customers/40000"
+      expect(response).not_to be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to be_a Hash
+      expect(error[:error]).to be_a Hash
+      expect(error[:error][:status]).to be_a String
+      expect(error[:error][:status]).to eq("404")
+      expect(error[:error][:title]).to be_a String
+      expect(error[:error][:title]).to eq("Error")
+      expect(error[:error][:message]).to be_a String
+      expect(error[:error][:message]).to eq("Couldn't find Customer with 'id'=40000")
+      expect(error[:error][:detail]).to be_a String
+      expect(error[:error][:detail]).to eq("No Record Found")
     end
   end
 end

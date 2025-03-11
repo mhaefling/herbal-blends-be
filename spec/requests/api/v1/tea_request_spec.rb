@@ -107,4 +107,50 @@ RSpec.describe "Teas Controller", type: :request do
       expect(new_tea_attributes[:brew_time]).to eq(20)
     end
   end
+  
+  describe "Sad Paths" do
+    it 'Provides a valid error when teas id does not exist' do
+      get "/api/v1/teas/300"
+      expect(response).not_to be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to be_a Hash
+      expect(error[:error]).to be_a Hash
+      expect(error[:error][:status]).to be_a String
+      expect(error[:error][:status]).to eq("404")
+      expect(error[:error][:title]).to be_a String
+      expect(error[:error][:title]).to eq("Error")
+      expect(error[:error][:message]).to be_a String
+      expect(error[:error][:message]).to eq("Couldn't find Tea with 'id'=300")
+      expect(error[:error][:detail]).to be_a String
+      expect(error[:error][:detail]).to eq("No Record Found")
+    end
+
+    it 'Provides a valid error when a param is missing while creating teas' do
+      new_tea = {
+      title: "New Tea2",
+      description: "Testing a new tea for",
+      temp: 5
+      }
+
+      post "/api/v1/teas/", params: new_tea, as: :json
+      expect(response).not_to be_successful
+      expect(response.status).to eq(422)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+      expect(error).to be_a Hash
+      expect(error[:error]).to be_a Hash
+      expect(error[:error][:status]).to be_a String
+      expect(error[:error][:status]).to eq("422")
+      expect(error[:error][:title]).to be_a String
+      expect(error[:error][:title]).to eq("Error")
+      expect(error[:error][:message]).to be_a String
+      expect(error[:error][:message]).to eq("Validation failed: Brew time can't be blank")
+      expect(error[:error][:detail]).to be_a String
+      expect(error[:error][:detail]).to eq("Unprocessable Entity")
+
+    end
+  end
 end

@@ -93,4 +93,25 @@ RSpec.describe "Subscription Controller", type: :request do
       expect(updated_sub[:status]).to eq(false)
     end
   end
+
+  describe "Sad Paths" do
+    it 'Provides a valid error when subscription id does not exist' do
+      get "/api/v1/subscriptions/105"
+      expect(response).not_to be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to be_a Hash
+      expect(error[:error]).to be_a Hash
+      expect(error[:error][:status]).to be_a String
+      expect(error[:error][:status]).to eq("404")
+      expect(error[:error][:title]).to be_a String
+      expect(error[:error][:title]).to eq("Error")
+      expect(error[:error][:message]).to be_a String
+      expect(error[:error][:message]).to eq("Couldn't find Subscription with 'id'=105")
+      expect(error[:error][:detail]).to be_a String
+      expect(error[:error][:detail]).to eq("No Record Found")
+    end
+  end
 end
