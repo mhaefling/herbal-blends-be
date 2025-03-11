@@ -9,4 +9,8 @@ class Tea < ApplicationRecord
   def customer_count
     customers.distinct.count
   end
+
+  def subscription_count
+    subscriptions.distinct.count
+  end
 end
