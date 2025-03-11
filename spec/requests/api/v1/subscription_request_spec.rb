@@ -70,7 +70,27 @@ RSpec.describe "Subscription Controller", type: :request do
         expect(tea[:temp]).to be_a Integer
         expect(tea[:brew_time]).to be_a Integer
       end
+    end
+  end
 
+  describe "Update Action" do
+    it 'Allows the status of a supbscription to be updated' do
+
+      get "/api/v1/subscriptions/#{@sub1.id}"
+      current_status = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+      expect(current_status[:status]).to eq(true)
+
+
+      deact_sub = {
+        status: "false"
+      }
+      patch "/api/v1/subscriptions/#{@sub1.id}", params: deact_sub, as: :json
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      updated_sub = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+      expect(updated_sub[:status]).to eq(false)
     end
   end
 end
