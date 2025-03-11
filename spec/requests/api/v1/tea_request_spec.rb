@@ -46,4 +46,31 @@ RSpec.describe "Subscription Controller", type: :request do
       expect(all_teas_meta[:total_available_teas]).to be_a Integer
     end
   end
+
+  describe "Show Index" do
+    it 'Returns the details of a single requested Tea by id' do
+      get "/api/v1/teas/#{@tea2.id}"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      tea = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(tea[:data]).to be_a Hash
+      
+      tea_data = tea[:data]
+      expect(tea_data[:id]).to be_a String
+      expect(tea_data[:type]).to be_a String
+      expect(tea_data[:type]).to eq('teas')
+      expect(tea_data[:attributes]).to be_a Hash
+
+      tea_data_attributes = tea[:data][:attributes]
+      expect(tea_data_attributes[:title]).to be_a String
+      expect(tea_data_attributes[:description]).to be_a String
+      expect(tea_data_attributes[:temp]).to be_a Integer
+      expect(tea_data_attributes[:brew_time]).to be_a Integer
+      expect(tea_data_attributes[:customer_count]).to be_a Integer
+      expect(tea_data_attributes[:subscription_count]).to be_a Integer
+    end
+  end
 end
