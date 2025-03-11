@@ -5,4 +5,9 @@ class Api::V1::SubscriptionsController < ApplicationController
     render json: SubscriptionsSerializer.new(all_subscriptions, meta_data), status: :ok
   end
 
+  def show
+    subscription = Subscription.includes(:teas, subscription_teas: :customer).find(params[:id])
+    render json: SubscriptionsSerializer.new(subscription, params: { include_teas: true, include_customers: true }), status: :ok
+  end
+
 end
