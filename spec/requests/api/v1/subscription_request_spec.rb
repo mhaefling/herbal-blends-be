@@ -28,7 +28,7 @@ RSpec.describe "Subscription Controller", type: :request do
       all_subs[:data].each do |sub|
         expect(sub[:id]).to be_a String
         expect(sub[:type]).to be_a String
-        expect(sub[:type]).to eq("subscriptions")
+        expect(sub[:type]).to eq("subscription")
         expect(sub[:attributes]).to be_a Hash
         expect(sub[:attributes][:title]).to be_a String
         expect(sub[:attributes][:price]).to be_a Float
@@ -52,7 +52,7 @@ RSpec.describe "Subscription Controller", type: :request do
       sub_info_data = sub_info[:data]
       expect(sub_info_data[:id]).to be_a String
       expect(sub_info_data[:type]).to be_a String
-      expect(sub_info_data[:type]).to eq("subscriptions")
+      expect(sub_info_data[:type]).to eq("subscription")
       expect(sub_info_data[:attributes]).to be_a Hash
 
       sub_info_attributes = sub_info[:data][:attributes]

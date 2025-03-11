@@ -1,7 +1,7 @@
 require "rails_helper"
 require "pry"
 
-RSpec.describe "Subscription Controller", type: :request do
+RSpec.describe "Teas Controller", type: :request do
   before :each do
     @sub1 = Subscription.create!(title: "Green Tea Lovers", price: 5.50, status: true, frequency: "monthly")
     @sub2 = Subscription.create!(title: "White Tea Lovers", price: 7.50, status: true, frequency: "monthly")
@@ -31,7 +31,7 @@ RSpec.describe "Subscription Controller", type: :request do
       all_teas_data.map do |tea|
         expect(tea[:id]).to be_a String
         expect(tea[:type]).to be_a String
-        expect(tea[:type]).to eq("teas")
+        expect(tea[:type]).to eq("tea")
         expect(tea[:attributes]).to be_a Hash
         expect(tea[:attributes][:title]).to be_a String
         expect(tea[:attributes][:description]).to be_a String
@@ -61,7 +61,7 @@ RSpec.describe "Subscription Controller", type: :request do
       tea_data = tea[:data]
       expect(tea_data[:id]).to be_a String
       expect(tea_data[:type]).to be_a String
-      expect(tea_data[:type]).to eq('teas')
+      expect(tea_data[:type]).to eq('tea')
       expect(tea_data[:attributes]).to be_a Hash
 
       tea_data_attributes = tea[:data][:attributes]
