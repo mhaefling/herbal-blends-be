@@ -7,7 +7,7 @@ class SubscriptionsSerializer
   end
 
   attribute :teas, if: Proc.new { |_subscription, params| params && params[:include_teas] } do |subscription|
-    subscription.teas.map do |tea|
+    subscription.teas.distinct.map do |tea|
       {
         title: tea.title,
         description: tea.description,

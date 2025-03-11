@@ -7,7 +7,9 @@ RSpec.describe "Subscription Controller", type: :request do
     @sub2 = Subscription.create!(title: "White Tea Lovers", price: 7.50, status: true, frequency: "monthly")
     @tea1 = Tea.create!(title: "Arizona Green Tea", description: "Plastic bottle tea", temp: 2, brew_time: 0)
     @test_customer = Customer.create!(first_name: "Jolly", last_name: "Green", email: "JollyGreen@gmail.com", address: "123 JollyGreen Street")
+    @test_customer2 = Customer.create!(first_name: "Big", last_name: "Red", email: "BigRed@gmail.com", address: "123 BigRed Street")
     @test_customer.subscription_teas.create!(subscription_id: @sub2.id, tea_id: @tea1.id, customer_id: @test_customer.id, status: true)
+    @test_customer2.subscription_teas.create!(subscription_id: @sub2.id, tea_id: @tea1.id, customer_id: @test_customer2.id, status: false)
   end
 
   describe "Index Action" do
@@ -34,6 +36,41 @@ RSpec.describe "Subscription Controller", type: :request do
         expect(sub[:attributes][:frequency]).to be_a String
         expect(sub[:attributes][:total_active_customers]).to be_a Integer
       end
+    end
+  end
+
+  describe "Show Action" do
+    it 'Can show the details of a specific subscription' do
+      get "/api/v1/subscriptions/#{@sub2.id}"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      sub_info = JSON.parse(response.body, symbolize_names: true)
+      expect(sub_info[:data]).to be_a Hash
+
+      sub_info_data = sub_info[:data]
+      expect(sub_info_data[:id]).to be_a String
+      expect(sub_info_data[:type]).to be_a String
+      expect(sub_info_data[:type]).to eq("subscriptions")
+      expect(sub_info_data[:attributes]).to be_a Hash
+
+      sub_info_attributes = sub_info[:data][:attributes]
+      expect(sub_info_attributes[:title]).to be_a String
+      expect(sub_info_attributes[:price]).to be_a Float
+      expect(sub_info_attributes[:status]).to be_in([true, false])
+      expect(sub_info_attributes[:frequency]).to be_a String
+      expect(sub_info_attributes[:total_active_customers]).to be_a Integer
+
+      sub_info_teas = sub_info[:data][:attributes][:teas]
+      expect(sub_info_teas).to be_a Array
+      sub_info_teas.each do |tea|
+        expect(tea[:title]).to be_a String
+        expect(tea[:description]).to be_a String
+        expect(tea[:temp]).to be_a Integer
+        expect(tea[:brew_time]).to be_a Integer
+      end
+
     end
   end
 end
