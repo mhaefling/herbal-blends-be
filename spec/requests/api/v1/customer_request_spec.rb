@@ -39,4 +39,32 @@ RSpec.describe "Customer Controller", type: :request do
       end
     end
   end
+
+  describe "Show Action" do
+    it "Returns a specific customers data by id" do
+      get "/api/v1/customers/#{@test_customer.id}"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      customer = JSON.parse(response.body, symbolize_names: true)
+      expect(customer[:data]).to be_a Hash
+
+      customer_data = customer[:data]
+      expect(customer_data[:id]).to be_a String
+      expect(customer_data[:type]).to be_a String
+      expect(customer_data[:type]).to eq("customer")
+      expect(customer_data[:attributes]).to be_a Hash
+
+      customer_attributes = customer[:data][:attributes]
+      expect(customer_attributes[:first_name]).to be_a String
+      expect(customer_attributes[:first_name]).to eq("Jolly")
+      expect(customer_attributes[:last_name]).to be_a String
+      expect(customer_attributes[:last_name]).to eq("Green")
+      expect(customer_attributes[:email]).to be_a String
+      expect(customer_attributes[:email]).to eq("JollyGreen@gmail.com")
+      expect(customer_attributes[:address]).to be_a String
+      expect(customer_attributes[:address]).to eq("123 JollyGreen Street")
+    end
+  end
 end
