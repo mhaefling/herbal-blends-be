@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :subscriptions, only: [:index, :show]
       resources :teas, only: [:index, :show]
+      resources :customers, only: [:index, :show]
     end
   end
 end
