@@ -12,7 +12,7 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def update
     subscription = Subscription.find(params[:id])
-    subscription.update(status: sub_params[:status])
+    subscription.update!(status: sub_params[:status])
     render json: SubscriptionSerializer.new(subscription, params: { include_teas: true, include_customers: true }), status: :ok
   end
 
