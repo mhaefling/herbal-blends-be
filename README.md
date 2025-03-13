@@ -1,24 +1,45 @@
-# README
+# Cardfolio 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Overview of Project
 
-Things you may want to cover:
+The base Ruby on Rails backend for a small tea subscription company.
 
-* Ruby version
+# Setup & Running Instructions:
+- Clone down the Herbal Blends backend with the following command:
+`git@github.com:mhaefling/herbal-blends-be.git`
+- Change into the backend directly with the following command:
+`cd herbal-blends-be`
+- Install all the required gems for the backend with the command:
+`bundle install`
+- Start the backend with the following command:
+`rails server`
+- Clone this repo down to your local hard drive with the following command:
+`git@github.com:mhaefling/herbal-blends-fe.git`
+- Change into the project directory with the following command:
+`cd Cardfolio-FE`
+- Start the Frontend Server with the following command:
+`npm install` & `npm start`
 
-* System dependencies
 
-* Configuration
+#  Technologies Used, Challenges, Wins & Reflections
 
-* Database creation
+## Technologies Used:
 
-* Database initialization
+	•	Backend: Rails, Postgresql
+	•	Testing: RSpec, Shoulda Matchers  
 
-* How to run the test suite
+## Challenges Faced
+•	Understanding Many to Many database relations
+•	Writing a complex database schema
+•	Correctly Serializing complex data structures
 
-* Services (job queues, cache servers, search engines, etc.)
+## Wins & Reflections:
 
-* Deployment instructions
+✅ Successfully Built database schema with many to many.
 
-* ...
+
+
+# 👥 Author
+
+[Matt Haefling](https://github.com/mhaefling)
+
