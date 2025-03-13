@@ -1,4 +1,4 @@
-# Cardfolio 
+# Herbal Blends
 
 # Overview of Project
 
@@ -16,7 +16,7 @@ The base Ruby on Rails backend for a small tea subscription company.
 - Clone this repo down to your local hard drive with the following command:
 `git@github.com:mhaefling/herbal-blends-fe.git`
 - Change into the project directory with the following command:
-`cd Cardfolio-FE`
+`cd herbal-blends-fe`
 - Start the Frontend Server with the following command:
 `npm install` & `npm start`
 
